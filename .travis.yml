@@ -50,8 +50,8 @@ install:
   - travis_retry composer install --no-interaction --ignore-platform-reqs
 
 before_script:
-  echo 'dmbstring.func_overload=7' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  
+  echo 'mbstring.func_overload=7' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+
 script:
   - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/phpunit --coverage-clover clover.xml ; fi
   - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then ./vendor/bin/phpunit ; fi
