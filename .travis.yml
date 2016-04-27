@@ -33,7 +33,7 @@ matrix:
         - DEPLOY_DOCS="$(if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then echo -n 'true' ; else echo -n 'false' ; fi)"
         - PATH="$HOME/.local/bin:$PATH"
     - php: 7
-    - php: hhvm 
+    - php: hhvm
   allow_failures:
     - php: hhvm
 
@@ -49,6 +49,9 @@ before_install:
 install:
   - travis_retry composer install --no-interaction --ignore-platform-reqs
 
+before_script:
+  echo 'dmbstring.func_overload=7' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  
 script:
   - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then ./vendor/bin/phpunit --coverage-clover clover.xml ; fi
   - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then ./vendor/bin/phpunit ; fi

@@ -64,8 +64,8 @@ class McryptTest extends \PHPUnit_Framework_TestCase
         $mcrypt  = new Mcrypt($options);
         $this->assertEquals($mcrypt->getAlgorithm(), MCRYPT_BLOWFISH);
         $this->assertEquals($mcrypt->getMode(), MCRYPT_MODE_CFB);
-        $this->assertEquals($mcrypt->getKey(), substr($this->key, 0, $mcrypt->getKeySize()));
-        $this->assertEquals($mcrypt->getSalt(), substr($this->salt, 0, $mcrypt->getSaltSize()));
+        $this->assertEquals($mcrypt->getKey(), mb_substr($this->key, 0, $mcrypt->getKeySize(), '8bit'));
+        $this->assertEquals($mcrypt->getSalt(), mb_substr($this->salt, 0, $mcrypt->getSaltSize(), '8bit'));
         $this->assertInstanceOf(PKCS7::class, $mcrypt->getPadding());
     }
 
@@ -86,8 +86,8 @@ class McryptTest extends \PHPUnit_Framework_TestCase
         $mcrypt  = new Mcrypt($config);
         $this->assertEquals($mcrypt->getAlgorithm(), MCRYPT_BLOWFISH);
         $this->assertEquals($mcrypt->getMode(), MCRYPT_MODE_CFB);
-        $this->assertEquals($mcrypt->getKey(), substr($this->key, 0, $mcrypt->getKeySize()));
-        $this->assertEquals($mcrypt->getSalt(), substr($this->salt, 0, $mcrypt->getSaltSize()));
+        $this->assertEquals($mcrypt->getKey(), mb_substr($this->key, 0, $mcrypt->getKeySize(), '8bit'));
+        $this->assertEquals($mcrypt->getSalt(), mb_substr($this->salt, 0, $mcrypt->getSaltSize(), '8bit'));
         $this->assertInstanceOf(PKCS7::class, $mcrypt->getPadding());
     }
 
@@ -156,7 +156,7 @@ class McryptTest extends \PHPUnit_Framework_TestCase
     {
         $this->mcrypt->setSalt($this->salt);
         $this->assertEquals(
-            substr($this->salt, 0, $this->mcrypt->getSaltSize()),
+            mb_substr($this->salt, 0, $this->mcrypt->getSaltSize(), '8bit'),
             $this->mcrypt->getSalt()
         );
         $this->assertEquals($this->salt, $this->mcrypt->getOriginalSalt());

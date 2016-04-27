@@ -51,8 +51,8 @@ class ScryptTest extends \PHPUnit_Framework_TestCase
         $input   = self::hex2bin(str_replace([' ', "\n"], '', $hexInput));
         $result  = $salsa20->invokeArgs($obj, [$input]);
 
-        $this->assertEquals(64, strlen($input), 'Input must be a string of 64 bytes');
-        $this->assertEquals(64, strlen($result), 'Output must be a string of 64 bytes');
+        $this->assertEquals(64, mb_strlen($input, '8bit'), 'Input must be a string of 64 bytes');
+        $this->assertEquals(64, mb_strlen($result, '8bit'), 'Output must be a string of 64 bytes');
         $this->assertEquals(str_replace([' ', "\n"], '', $hexOutput), bin2hex($result));
     }
     /**
@@ -138,7 +138,7 @@ class ScryptTest extends \PHPUnit_Framework_TestCase
                       b9 56 ce 45 da 43 aa 90 99 de 74 06 d3 a0 5e 2a';
 
         $result = Scrypt::calc('password', '', 16, 1, 1, 64);
-        $this->assertEquals(64, strlen($result));
+        $this->assertEquals(64, mb_strlen($result, '8bit'));
         $this->assertEquals(str_replace([' ', "\n"], '', $hexOutput), bin2hex($result));
     }
 
@@ -169,7 +169,7 @@ class ScryptTest extends \PHPUnit_Framework_TestCase
                 $this->setExpectedException('Zend\Crypt\Key\Derivation\Exception\InvalidArgumentException');
             }
             $result = Scrypt::calc('test', 'salt', 16, 1, 1, $size) ?: '';
-            $this->assertEquals($size, strlen($result));
+            $this->assertEquals($size, mb_strlen($result, '8bit'));
         }
     }
 
@@ -181,7 +181,7 @@ class ScryptTest extends \PHPUnit_Framework_TestCase
      */
     protected static function hex2bin($hex)
     {
-        $len    = strlen($hex);
+        $len    = mb_strlen($hex, '8bit');
         $result = '';
         for ($i = 0; $i < $len; $i += 2) {
             $result .=  chr(hexdec($hex[$i] . $hex[$i+1]));

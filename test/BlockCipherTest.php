@@ -73,7 +73,7 @@ class BlockCipherTest extends TestCase
         $result = $this->blockCipher->setSalt($salt);
         $this->assertEquals($result, $this->blockCipher);
         $this->assertEquals(
-            substr($salt, 0, $this->blockCipher->getCipher()->getSaltSize()),
+            mb_substr($salt, 0, $this->blockCipher->getCipher()->getSaltSize(), '8bit'),
             $this->blockCipher->getSalt()
         );
         $this->assertEquals($salt, $this->blockCipher->getOriginalSalt());
@@ -196,7 +196,7 @@ class BlockCipherTest extends TestCase
         $encrypted = $this->blockCipher->encrypt($this->plaintext);
         $this->assertNotEmpty($encrypted);
         // tamper the encrypted data
-        $encrypted = substr($encrypted, -1);
+        $encrypted = mb_substr($encrypted, -1, null, '8bit');
         $decrypted = $this->blockCipher->decrypt($encrypted);
         $this->assertFalse($decrypted);
     }

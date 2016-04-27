@@ -31,7 +31,7 @@ class SaltedS2kTest extends \PHPUnit_Framework_TestCase
             return;
         }
         $password = SaltedS2k::calc('sha256', 'test', $this->salt, 32);
-        $this->assertEquals(32, strlen($password));
+        $this->assertEquals(32, mb_strlen($password, '8bit'));
         $this->assertEquals('qzQISUBUSP1iqYtwe/druhdOVqluc/Y2TetdSHSbaw8=', base64_encode($password));
     }
 
@@ -54,6 +54,6 @@ class SaltedS2kTest extends \PHPUnit_Framework_TestCase
         }
         $this->setExpectedException('Zend\Crypt\Key\Derivation\Exception\InvalidArgumentException',
                                     'The salt size must be at least of 8 bytes');
-        $password = SaltedS2k::calc('sha256', 'test', substr($this->salt, -1), 32);
+        $password = SaltedS2k::calc('sha256', 'test', mb_substr($this->salt, -1, null, '8bit'), 32);
     }
 }

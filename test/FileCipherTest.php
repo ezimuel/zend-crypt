@@ -255,9 +255,9 @@ class FileCipherTest extends \PHPUnit_Framework_TestCase
     protected function generateTmpFile($size, $content = 'A')
     {
         $fileName = sys_get_temp_dir() . '/' . uniqid('ZF2_FileCipher_test');
-        $num = $size / strlen($content) + 1;
-        $content  = str_repeat('A', $size / strlen($content) + 1);
-        file_put_contents($fileName, substr($content, 0, $size));
+        $num = $size / mb_strlen($content, '8bit') + 1;
+        $content  = str_repeat('A', $size / mb_strlen($content, '8bit') + 1);
+        file_put_contents($fileName, mb_substr($content, 0, $size, '8bit'));
 
         return $fileName;
     }

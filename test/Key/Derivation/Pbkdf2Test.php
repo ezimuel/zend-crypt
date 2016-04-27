@@ -24,7 +24,7 @@ class Pbkdf2Test extends \PHPUnit_Framework_TestCase
     public function testCalc()
     {
         $password = Pbkdf2::calc('sha256', 'test', $this->salt, 5000, 32);
-        $this->assertEquals(32, strlen($password));
+        $this->assertEquals(32, mb_strlen($password, '8bit'));
         $this->assertEquals('JVNgHc1AeBl/S9H6Jo2tUUi838snakDBMcsNJP0+0O0=', base64_encode($password));
     }
 

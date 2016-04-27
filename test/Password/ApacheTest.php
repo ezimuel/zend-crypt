@@ -84,7 +84,7 @@ class ApacheTest extends \PHPUnit_Framework_TestCase
     {
         $this->apache->setFormat('crypt');
         $hash = $this->apache->create('myPassword');
-        $this->assertEquals(13, strlen($hash));
+        $this->assertEquals(13, mb_strlen($hash, '8bit'));
         $this->assertTrue($this->apache->verify('myPassword', $hash));
     }
 
@@ -99,8 +99,8 @@ class ApacheTest extends \PHPUnit_Framework_TestCase
     {
         $this->apache->setFormat('md5');
         $hash = $this->apache->create('myPassword');
-        $this->assertEquals('$apr1$', substr($hash, 0, 6));
-        $this->assertEquals(37, strlen($hash));
+        $this->assertEquals('$apr1$', mb_substr($hash, 0, 6, '8bit'));
+        $this->assertEquals(37, mb_strlen($hash, '8bit'));
         $this->assertTrue($this->apache->verify('myPassword', $hash));
     }
 
@@ -110,7 +110,7 @@ class ApacheTest extends \PHPUnit_Framework_TestCase
         $this->apache->setUserName('Enrico');
         $this->apache->setAuthName('Auth');
         $hash = $this->apache->create('myPassword');
-        $this->assertEquals(32, strlen($hash));
+        $this->assertEquals(32, mb_strlen($hash, '8bit'));
     }
 
     /**

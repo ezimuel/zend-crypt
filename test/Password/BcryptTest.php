@@ -106,7 +106,7 @@ class BcryptTest extends \PHPUnit_Framework_TestCase
     {
         $password = $this->bcrypt->create('test');
         $this->assertNotEmpty($password);
-        $this->assertEquals(60, strlen($password));
+        $this->assertEquals(60, mb_strlen($password, '8bit'));
     }
 
     public function testCreateWithSalt()
@@ -119,7 +119,7 @@ class BcryptTest extends \PHPUnit_Framework_TestCase
     public function testVerify()
     {
         $this->assertTrue($this->bcrypt->verify($this->password, $this->bcryptPassword));
-        $this->assertFalse($this->bcrypt->verify(substr($this->password, -1), $this->bcryptPassword));
+        $this->assertFalse($this->bcrypt->verify(mb_substr($this->password, -1, null, '8bit'), $this->bcryptPassword));
     }
 
     public function testPasswordWith8bitCharacter()
